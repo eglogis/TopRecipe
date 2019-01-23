@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="gradient_animated_background.json"
+            app:lottie_imageAssetsFolder="assets"
+            app:lottie_loop="true">
+
+        </com.airbnb.lottie.LottieAnimationView>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_view2"
+            android:layout_width="269dp"
+            android:layout_height="174dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="71dp"
+            android:scaleType="centerCrop"
+            app:lottie_autoPlay="true"
+            app:lottie_colorFilter="#000000"
+            app:lottie_fileName="cooking.json"
+            app:lottie_imageAssetsFolder="assets"
+            app:lottie_loop="true">
+
+        </com.airbnb.lottie.LottieAnimationView>
+
+        <TextView
+            android:id="@+id/txvTitulo"
+            android:layout_width="268dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/animation_view"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="230dp"
+            android:gravity="center"
+            android:text="TopRecipes"
+            android:textColor="@android:color/black"
+            android:textSize="48sp"
+            android:textStyle="bold"
+            app:fontFamily="@font/pacifico" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/animation_view"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="160dp"
+            android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btnInicio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/boton_inicio_redondo"
+                    android:text="INICIAR SESION"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnRegistro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/boton_registrate_redondo"
+                    android:text="REGISTRARSE"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnInvitado"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/boton_invitado_redondo"
+                    android:text="ENTRAR COMO INVITADO" />
+        </LinearLayout>
+
+</RelativeLayout>
