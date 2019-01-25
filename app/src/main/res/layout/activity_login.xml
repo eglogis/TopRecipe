@@ -17,7 +17,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="85dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:orientation="horizontal">
@@ -95,7 +95,7 @@
             app:fontFamily="@font/pacifico" />
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/edtContraseña"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
@@ -111,7 +111,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btnInicioSesion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
