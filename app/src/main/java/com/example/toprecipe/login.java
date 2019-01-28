@@ -1,5 +1,6 @@
 package com.example.toprecipe;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -19,11 +20,9 @@ import retrofit2.Response;
 public class login extends AppCompatActivity implements View.OnClickListener{
 
     private EditText edtNombre;
-    private EditText edtContraseña;
+    private EditText edtContrasena;
     private Button btnIniciar;
-
-    InstanciaRetrofit.GetDataService service = InstanciaRetrofit.getRetrofitInstance().create(InstanciaRetrofit.GetDataService.class);
-    Call<List<usuario>> call = service.getAllPhotos();
+    public static usuario UsuarioBuscado;
 
 
 
@@ -35,7 +34,9 @@ public class login extends AppCompatActivity implements View.OnClickListener{
         hacerInvisibleStatusBar();
         inicializarComponentes();
 
-        //nombreLogin = edtNombre.getText().toString();
+
+
+
 
     }
 
@@ -62,7 +63,7 @@ public class login extends AppCompatActivity implements View.OnClickListener{
     private void inicializarComponentes(){
 
         edtNombre = (EditText)findViewById(R.id.edtNombre);
-        edtContraseña = (EditText)findViewById(R.id.edtContraseña);
+        edtContrasena = (EditText)findViewById(R.id.edtContraseña);
         btnIniciar = (Button)findViewById(R.id.btnInicioSesion);
         btnIniciar.setOnClickListener(this);
     }
@@ -70,7 +71,7 @@ public class login extends AppCompatActivity implements View.OnClickListener{
     //comprueba si el editText esta vacio
     private boolean estaVacioEditText(){
 
-        if((edtNombre.getText().toString().isEmpty()) || (edtContraseña.getText().toString().isEmpty())){
+        if((edtNombre.getText().toString().isEmpty()) || (edtContrasena.getText().toString().isEmpty())){
 
             return true;
 
@@ -90,25 +91,62 @@ public class login extends AppCompatActivity implements View.OnClickListener{
 
         }else{
 
-            call.enqueue(new Callback<List<usuario>>() {
-                @Override
-                public void onResponse(Call<List<usuario>> call, Response<List<usuario>> response) {
-                    generateDataList(response.body());
-                }
-
-                @Override
-                public void onFailure(Call<List<usuario>> call, Throwable t) {
-                    Toast.makeText(getApplicationContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
-                    Log.e("error", t.toString());
-                }
-            });
-
-
+            instanciaRetrofit();
         }
     }
 
-    private void generateDataList(List<usuario> photoList) {
+    private void instanciaRetrofit(){
 
+        InstanciaRetrofit.GetDataService service = InstanciaRetrofit.getRetrofitInstance().create(InstanciaRetrofit.GetDataService.class);
+        Call<List<usuario>> call = service.getAllPhotos();
 
+        call.enqueue(new Callback<List<usuario>>() {
+            @Override
+            public void onResponse(Call<List<usuario>> call, Response<List<usuario>> response) {
+
+                UsuarioBuscado = generateDataList(response.body());
+
+                if(UsuarioBuscado.getId() == 0){
+
+                    Toast.makeText(getApplicationContext(), "El usuario o la contraseña no es correcto", Toast.LENGTH_SHORT).show();
+
+                }
+                else {
+
+                    Intent intent = new Intent(getApplicationContext(), recipes.class);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<usuario>> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                Log.e("error", t.toString());
+            }
+        });
+    }
+
+    private usuario generateDataList(List<usuario> photoList) {
+
+        boolean encontrado = false;
+        int contador = 0;
+        usuario usuarioEncontrado = null;
+
+        while ((encontrado == false) && (contador < photoList.size())){
+
+            if((photoList.get(contador).getLogin().equals(edtNombre.getText().toString())) && (photoList.get(contador).getContrasena().equals(edtContrasena.getText().toString()))){
+
+                usuarioEncontrado = photoList.get(contador);
+                encontrado = true;
+            }
+            else {
+
+                usuarioEncontrado = new usuario(0, null, null, null, null, null, null, null, null, null, null, null, null);
+            }
+
+            contador++;
+        }
+
+        return usuarioEncontrado;
     }
 }
