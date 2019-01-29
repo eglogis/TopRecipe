@@ -33,11 +33,7 @@ public class login extends AppCompatActivity implements View.OnClickListener{
 
         hacerInvisibleStatusBar();
         inicializarComponentes();
-
-
-
-
-
+        
     }
 
     @Override

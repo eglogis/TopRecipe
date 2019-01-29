@@ -35,4 +35,12 @@ public class InstanciaRetrofit {
         @GET("obtenerUsuarios.php/")
         Call<List<usuario>> getAllPhotos();
     }
+
+    /*public interface APIService {
+
+        @POST("/posts")
+        Call<Post> savePost(@Field("title") String title,
+                            @Field("body") String body,
+                            @Field("userId") long userId);
+    }*/
 }
