@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class register extends AppCompatActivity implements View.OnClickListener{
 
-    private EditText edtNombre, edtApellido, edtFechaNacimiento, edtNumeroTelefono, edtObservaciones, edtNombreUsuario, edtCorreoElectronico, edtContrasena, edtContrasenados;
+    private EditText edtNombre, edtApellido, edtDia, edtMes, edtAno, edtNumeroTelefono, edtObservaciones, edtNombreUsuario, edtCorreoElectronico, edtContrasena, edtContrasenados;
     private Button btnRegistrar;
     private double latitud, altitud;
 
@@ -50,7 +50,9 @@ public class register extends AppCompatActivity implements View.OnClickListener{
         //edittext
         edtNombre = (EditText) findViewById(R.id.edtNombre);
         edtApellido = (EditText) findViewById(R.id.edtApellido);
-        edtFechaNacimiento = (EditText) findViewById(R.id.edtFechaNacimiento);
+        edtDia = (EditText) findViewById(R.id.edtDia);
+        edtMes = (EditText) findViewById(R.id.edtMes);
+        edtAno = (EditText) findViewById(R.id.edtAno);
         edtNumeroTelefono = (EditText) findViewById(R.id.edtNumeroTelefono);
         edtObservaciones = (EditText) findViewById(R.id.edtObservaciones);
         edtNombreUsuario = (EditText) findViewById(R.id.edtNombreUsuario);

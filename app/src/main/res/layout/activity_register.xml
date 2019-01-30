@@ -118,24 +118,58 @@
                     android:textSize="20sp"
                     app:fontFamily="@font/pacifico" />
 
-                <EditText
-                    android:id="@+id/edtFechaNacimiento"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/boton_registrate_redondo"
-                    android:ems="10"
-                    android:hint="YYYY-MM-DD"
-                    android:inputType="textPersonName"
-                    android:paddingLeft="10dp"
-                    android:textColor="#38068f"
-                    android:textColorHint="#A4A4A4" />
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edtDia"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/boton_registrate_redondo"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:hint="DD"
+                        android:inputType="date"
+                        android:paddingLeft="10dp"
+                        android:textColorHint="#A4A4A4" />
+
+                    <EditText
+                        android:id="@+id/edtMes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/boton_registrate_redondo"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:hint="MM"
+                        android:inputType="date"
+                        android:paddingLeft="10dp"
+                        android:textColorHint="#A4A4A4" />
+
+                    <EditText
+                        android:id="@+id/edtAno"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/boton_registrate_redondo"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:hint="YYYY"
+                        android:inputType="date"
+                        android:paddingLeft="10dp"
+                        android:textColorHint="#A4A4A4" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/textView13"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:gravity="center"
                     android:text="NUMERO DE TELEFONO:"
                     android:textColor="@android:color/background_light"
                     android:textSize="20sp"
