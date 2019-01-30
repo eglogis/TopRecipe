@@ -13,7 +13,8 @@ import retrofit2.http.GET;
 public class InstanciaRetrofit {
 
     private static Retrofit retrofit;
-    private static final String BASE_URL = "http://192.168.1.140:80/topRecipes/";
+    //private static final String BASE_URL = "http://192.168.1.140:80/topRecipes/";
+    private static final String BASE_URL = "http://192.168.1.32:80/topRecipes/";
 
      /*static Gson gson = new GsonBuilder()
             .setLenient()
