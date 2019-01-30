@@ -61,6 +61,21 @@ public class usuario {
         this.comentarios = comentarios;
     }
 
+    public usuario(int id, String login, String contrasena, String nombre, String apellido, String nacimiento, String correo, Double latitud, Double altitud, String telefono, String foto, String comentarios) {
+        this.id = id;
+        this.login = login;
+        this.contrasena = contrasena;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.nacimiento = nacimiento;
+        this.correo = correo;
+        this.latitud = latitud;
+        this.altitud = altitud;
+        this.telefono = telefono;
+        this.foto = foto;
+        this.comentarios = comentarios;
+    }
+
     public int getId() {
         return id;
     }
