@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -35,14 +36,13 @@ public class register extends AppCompatActivity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
 
-        if(v.getId() == findViewById(R.id.btnRegistrar).getId()){
+        if (v.getId() == findViewById(R.id.btnRegistrar).getId()) {
 
-            clickBotonRegistrar();
+            //clickBotonRegistrar();
+
 
         }
-
     }
-
 
     //inicializa los componentes de la interfaz
     private void inicializarComponentes() {
@@ -66,7 +66,33 @@ public class register extends AppCompatActivity implements View.OnClickListener{
 
     }
 
+    private boolean estaVacioEditText(){
+
+        if((edtNombre.getText().toString().isEmpty()) || (edtApellido.getText().toString().isEmpty()) || (edtDia.getText().toString().isEmpty()) || (edtMes.getText().toString().isEmpty()) || (edtAno.getText().toString().isEmpty()) || (edtNumeroTelefono.getText().toString().isEmpty()) || (edtObservaciones.getText().toString().isEmpty()) || (edtNombreUsuario.getText().toString().isEmpty()) || (edtCorreoElectronico.getText().toString().isEmpty()) || (edtContrasena.getText().toString().isEmpty()) || (edtContrasenados.getText().toString().isEmpty())){
+
+            return true;
+
+        }else{
+
+            return false;
+        }
+    }
+
     private void clickBotonRegistrar(){
+
+
+        if(estaVacioEditText()){
+
+            Toast.makeText(this, "Son obligatorios los dos campos", Toast.LENGTH_SHORT).show();
+
+        }else{
+
+            /*
+            * controlar la fecha de nacimiento tanto mes como dia como el año
+            * controlar que el nombre de usuario sea unico
+            * comprobar que los dos campos de contraseña coincidad
+            * */
+        }
 
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         StringRequest sr = new StringRequest(Request.Method.POST,"http://192.168.1.32/topRecipes/anadir.php", new Response.Listener<String>() {
@@ -112,7 +138,5 @@ public class register extends AppCompatActivity implements View.OnClickListener{
             }
         };
         queue.add(sr);
-
-
     }
 }
