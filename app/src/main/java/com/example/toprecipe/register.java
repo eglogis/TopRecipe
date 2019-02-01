@@ -1,11 +1,19 @@
 package com.example.toprecipe;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.os.Build;
+import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -17,13 +25,26 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
 public class register extends AppCompatActivity implements View.OnClickListener{
 
     private EditText edtNombre, edtApellido, edtDia, edtMes, edtAno, edtNumeroTelefono, edtObservaciones, edtNombreUsuario, edtCorreoElectronico, edtContrasena, edtContrasenados;
     private Button btnRegistrar;
+    public static usuario UsuarioBuscado;
     private double latitud, altitud;
+    private ImageView imagenUsusario;
+    private final int COD_CAMARA=10;
+    private Bitmap bitmap;
+    Boolean permisos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +52,7 @@ public class register extends AppCompatActivity implements View.OnClickListener{
         setContentView(R.layout.activity_register);
 
         inicializarComponentes();
+        hacerInvisibleStatusBar();
     }
 
     @Override
@@ -38,8 +60,7 @@ public class register extends AppCompatActivity implements View.OnClickListener{
 
         if (v.getId() == findViewById(R.id.btnRegistrar).getId()) {
 
-            //clickBotonRegistrar();
-
+            clickBotonRegistrar();
 
         }
     }
@@ -64,8 +85,50 @@ public class register extends AppCompatActivity implements View.OnClickListener{
         btnRegistrar = (Button) findViewById(R.id.btnRegistrar);
         btnRegistrar.setOnClickListener(this);
 
+        imagenUsusario = (ImageView) findViewById(R.id.imgUsuario);
+        imagenUsusario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                Snackbar.make(view, "Se abrira la camara", Snackbar.LENGTH_LONG)
+                        .setAction("Aceptar", null).show();
+
+                //tomarfoto();
+
+                permisos = checkPermission();
+            }
+        });
+
     }
 
+    private void tomarfoto() {
+
+        if (checkPermission()) {
+
+            Intent intentCamara=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(intentCamara, COD_CAMARA);
+
+        }
+
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if ((resultCode == RESULT_OK)){
+
+            if(COD_CAMARA == 10){
+
+                bitmap = (Bitmap) data.getExtras().get("data");
+                imagenUsusario.setImageBitmap(bitmap);
+            }
+        }
+    }
+
+    //metodo para ver si est vacio o no un editText
     private boolean estaVacioEditText(){
 
         if((edtNombre.getText().toString().isEmpty()) || (edtApellido.getText().toString().isEmpty()) || (edtDia.getText().toString().isEmpty()) || (edtMes.getText().toString().isEmpty()) || (edtAno.getText().toString().isEmpty()) || (edtNumeroTelefono.getText().toString().isEmpty()) || (edtObservaciones.getText().toString().isEmpty()) || (edtNombreUsuario.getText().toString().isEmpty()) || (edtCorreoElectronico.getText().toString().isEmpty()) || (edtContrasena.getText().toString().isEmpty()) || (edtContrasenados.getText().toString().isEmpty())){
@@ -78,65 +141,198 @@ public class register extends AppCompatActivity implements View.OnClickListener{
         }
     }
 
+    //metodo utilizado para cuando haga click en el boton registrar
     private void clickBotonRegistrar(){
-
 
         if(estaVacioEditText()){
 
-            Toast.makeText(this, "Son obligatorios los dos campos", Toast.LENGTH_SHORT).show();
-
+            ToastError("Son obligatorios los dos campos");
         }else{
 
-            /*
-            * controlar la fecha de nacimiento tanto mes como dia como el año
-            * controlar que el nombre de usuario sea unico
-            * comprobar que los dos campos de contraseña coincidad
-            * */
-        }
+            if((edtDia.getText().toString().length() != 2) || (edtMes.getText().toString().length() != 2) || (edtAno.getText().toString().length() != 4)){
 
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        StringRequest sr = new StringRequest(Request.Method.POST,"http://192.168.1.32/topRecipes/anadir.php", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.d("Respuesta:",response);
-                //Gson g = new Gson();
-                //UserToken p = g.fromJson(response, UserToken.class);
-
+                ToastError("Los campos de la fecha tienen que ser DD MM AAAA");
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                if(error.networkResponse.statusCode == 400)
-                {
-                    //TODO: Colocar lo que hará cuando el usuario no se autentique correctamente
+            else{
+
+                if((Integer.parseInt(edtMes.getText().toString())) > 12 || (Integer.parseInt(edtMes.getText().toString()) <= 0) || (Integer.parseInt(edtAno.getText().toString()) < 1000) || (Integer.parseInt(edtAno.getText().toString()) > 2019)){
+
+                    ToastError("La fecha esta mal puesta");
+                }else {
+
+                    if ((Integer.parseInt(edtMes.getText().toString())) == 2 && (Integer.parseInt(edtDia.getText().toString()) > 28) || (Integer.parseInt(edtDia.getText().toString()) <= 0)) {
+
+                        ToastError("No has puesto bien la fecha, Febrero tiene 28 dias");
+                    } else {
+
+                        if ((Integer.parseInt(edtMes.getText().toString()) == 4) || (Integer.parseInt(edtMes.getText().toString()) == 6) || (Integer.parseInt(edtMes.getText().toString()) == 9) || (Integer.parseInt(edtMes.getText().toString()) == 11) && (Integer.parseInt(edtDia.getText().toString()) > 30) || (Integer.parseInt(edtDia.getText().toString()) <= 0)) {
+
+                            ToastError("No has puesto bien la fecha, ese mes no tiene mas de 30 dias ni menos de 1");
+                        } else {
+
+                            if ((Integer.parseInt(edtMes.getText().toString()) == 1) || (Integer.parseInt(edtMes.getText().toString()) == 3) || (Integer.parseInt(edtMes.getText().toString()) == 5) || (Integer.parseInt(edtMes.getText().toString()) == 7) || (Integer.parseInt(edtMes.getText().toString()) == 8) || (Integer.parseInt(edtMes.getText().toString()) == 10) || (Integer.parseInt(edtMes.getText().toString()) == 12) && (Integer.parseInt(edtDia.getText().toString()) > 31) || (Integer.parseInt(edtDia.getText().toString()) <= 0)) {
+
+                                ToastError("No has puesto bien la fecha, ese mes no tiene mas de 31 dias ni menos de 1");
+
+                            } else {
+
+                                if (!edtContrasena.getText().toString().equals(edtContrasenados.getText().toString())) {
+
+                                    ToastError("Las contraseñas no coinciden");
+
+                                } else {
+
+                                    InstanciaRetrofit.GetDataService service = InstanciaRetrofit.getRetrofitInstance().create(InstanciaRetrofit.GetDataService.class);
+                                    Call<List<usuario>> call = service.getAllPhotos();
+
+                                    call.enqueue(new Callback<List<usuario>>() {
+                                        @Override
+                                        public void onResponse(Call<List<usuario>> call, retrofit2.Response<List<usuario>> response) {
+
+                                            UsuarioBuscado = generateDataList(response.body());
+
+                                            if (UsuarioBuscado.getId() == 0) {
+
+                                                final String fecha = edtAno.getText().toString() + "-" + edtMes.getText().toString() + "-" + edtDia.getText().toString();
+
+                                                RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+                                                StringRequest sr = new StringRequest(Request.Method.POST, "http://192.168.1.32/topRecipes/anadir.php", new Response.Listener<String>() {
+                                                    @Override
+                                                    public void onResponse(String response) {
+                                                        //Log.d("Respuesta:", response);
+                                                        //Gson g = new Gson();
+                                                        //UserToken p = g.fromJson(response, UserToken.class);
+
+                                                    }
+                                                }, new Response.ErrorListener() {
+                                                    @Override
+                                                    public void onErrorResponse(VolleyError error) {
+                                                        if (error.networkResponse.statusCode == 400) {
+                                                            //TODO: Colocar lo que hará cuando el usuario no se autentique correctamente
+                                                        }
+                                                    }
+                                                }) {
+                                                    @Override
+                                                    protected Map<String, String> getParams() {
+                                                        Map<String, String> params = new HashMap<String, String>();
+                                                        params.put("login", edtNombreUsuario.getText().toString());
+                                                        params.put("contrasena", edtContrasena.getText().toString());
+                                                        params.put("nombre", edtNombre.getText().toString());
+                                                        params.put("apellido", edtApellido.getText().toString());
+                                                        params.put("nacimiento", fecha);
+                                                        params.put("correo", edtCorreoElectronico.getText().toString());
+                                                        params.put("latitud", "40.7127837");
+                                                        params.put("altitud", "40.7127837");
+                                                        params.put("telefono", edtNumeroTelefono.getText().toString());
+                                                        params.put("foto", "fotaso");
+                                                        params.put("comentarios", edtObservaciones.getText().toString());
+
+                                                        return params;
+                                                    }
+
+                                                    @Override
+                                                    public Map<String, String> getHeaders() throws AuthFailureError {
+                                                        Map<String, String> params = new HashMap<String, String>();
+                                                        params.put("Content-Type", "application/x-www-form-urlencoded");
+                                                        return params;
+                                                    }
+                                                };
+                                                queue.add(sr);
+
+                                                ToastExito("Usuario registrado correctamente");
+                                                Intent intent = new Intent(getApplicationContext(), login.class);
+                                                startActivity(intent);
+
+                                            } else {
+
+                                                ToastError("Ya existe un usuario con ese nombre de usuario");
+
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<List<usuario>> call, Throwable t) {
+                                            Toast.makeText(getApplicationContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                                            Log.e("error", t.toString());
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    }
                 }
             }
-        }){
-            @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("login", "alberto");
-                params.put("contrasena", "123");
-                params.put("nombre", "Alberto");
-                params.put("apellido", "Lucena");
-                params.put("nacimiento", "2000-03-04");
-                params.put("correo", "alberto@gmail.com");
-                params.put("latitud", "40.7127837");
-                params.put("altitud", "40.7127837");
-                params.put("telefono","957650935");
-                params.put("foto","fotaso");
-                params.put("comentarios", "Profesional");
+        }
+    }
 
-                return params;
+    //muestra toast cuando hay un error
+    private void ToastError(String texto){
+
+        Toast.makeText(this, texto, Toast.LENGTH_SHORT).show();
+    }
+
+    //muestra un toast cuando algo sale bien
+    private void ToastExito(String texto){
+
+        Toast.makeText(this, texto, Toast.LENGTH_SHORT).show();
+    }
+
+
+    //metodo para ver si se esta repitiendo o un el nombre de usuario en el registro
+    private usuario generateDataList(List<usuario> photoList) {
+
+        boolean encontrado = false;
+        int contador = 0;
+        usuario usuarioEncontrado = null;
+
+        while ((encontrado == false) && (contador < photoList.size())){
+
+            if((photoList.get(contador).getLogin().equals(edtNombreUsuario.getText().toString()))){
+
+                usuarioEncontrado = photoList.get(contador);
+                encontrado = true;
+            }
+            else {
+
+                usuarioEncontrado = new usuario(0, null, null, null, null, null, null, null, null, null, null, null, null);
             }
 
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Content-Type","application/x-www-form-urlencoded");
-                return params;
+            contador++;
+        }
+
+        return usuarioEncontrado;
+    }
+
+    private void hacerInvisibleStatusBar(){
+
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
+    }
+
+    private boolean checkPermission() {
+        /* Se compureba de que la SDK es superior a marshmallow, pues si es inferior no es necesario
+         * pedir permisos */
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if ((checkSelfPermission(CAMERA) != PackageManager.PERMISSION_GRANTED) &&
+                    (checkSelfPermission(WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) &&
+                    (checkSelfPermission(READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
+                /* En caso de no haber cargado correctamente los permisos se avisa con
+                 * un Toast y se piden */
+                Toast.makeText(getApplicationContext(), "Error al cargar permisos",
+                        Toast.LENGTH_LONG).show();
+                requestPermissions(new String[]{CAMERA, WRITE_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE}, 100);
+                return false;
+            } else {
+                /* En caso de todos los permisos correctos se notifica en el log */
+                Log.i("Mensaje", "Todos los permisos se han cargado correctamente.");
+
+                Intent intentCamara=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intentCamara, COD_CAMARA);
+                return true;
             }
-        };
-        queue.add(sr);
+        }
+        return true;
     }
 }

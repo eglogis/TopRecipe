@@ -24,8 +24,6 @@ public class login extends AppCompatActivity implements View.OnClickListener{
     private Button btnIniciar;
     public static usuario UsuarioBuscado;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +31,7 @@ public class login extends AppCompatActivity implements View.OnClickListener{
 
         hacerInvisibleStatusBar();
         inicializarComponentes();
+        ToastInfo("Inicia sesión con nombre de usuario y contraseña");
         
     }
 
@@ -82,7 +81,7 @@ public class login extends AppCompatActivity implements View.OnClickListener{
 
         if(estaVacioEditText()){
 
-            Toast.makeText(this, "Son obligatorios los dos campos", Toast.LENGTH_SHORT).show();
+            ToastError("Son obligatorios todos los campos");
 
 
         }else{
@@ -91,6 +90,7 @@ public class login extends AppCompatActivity implements View.OnClickListener{
         }
     }
 
+    //se crea la instancia de retrofit y lo que hace cuando responda y cuando falla
     private void instanciaRetrofit(){
 
         InstanciaRetrofit.GetDataService service = InstanciaRetrofit.getRetrofitInstance().create(InstanciaRetrofit.GetDataService.class);
@@ -104,7 +104,7 @@ public class login extends AppCompatActivity implements View.OnClickListener{
 
                 if(UsuarioBuscado.getId() == 0){
 
-                    Toast.makeText(getApplicationContext(), "El usuario o la contraseña no es correcto", Toast.LENGTH_SHORT).show();
+                    ToastError("El usuario o contraseña no es correcto");
 
                 }
                 else {
@@ -116,12 +116,13 @@ public class login extends AppCompatActivity implements View.OnClickListener{
 
             @Override
             public void onFailure(Call<List<usuario>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                ToastError("Hay problemas para conectarse a la base de datos, comprueba tu conexion");
                 Log.e("error", t.toString());
             }
         });
     }
 
+    //metodo con el que recorro los usuarios de la base de datos y busco uno en concreto
     private usuario generateDataList(List<usuario> photoList) {
 
         boolean encontrado = false;
@@ -144,5 +145,17 @@ public class login extends AppCompatActivity implements View.OnClickListener{
         }
 
         return usuarioEncontrado;
+    }
+
+    //muestro un toast para info
+    private void ToastInfo(String texto){
+
+        Toast.makeText(this, texto, Toast.LENGTH_SHORT).show();
+    }
+
+    //muestra toast cuando hay un error
+    private void ToastError(String texto){
+
+        Toast.makeText(this, texto, Toast.LENGTH_SHORT).show();
     }
 }
