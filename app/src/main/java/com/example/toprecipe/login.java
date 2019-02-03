@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class login extends AppCompatActivity implements View.OnClickListener{
     private EditText edtContrasena;
     private Button btnIniciar;
     public static usuario UsuarioBuscado;
+    private TextView registrarse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,11 @@ public class login extends AppCompatActivity implements View.OnClickListener{
         if(v.getId() == findViewById(R.id.btnInicioSesion).getId()){
 
             clickEnIniciarSesion();
+        }
+        if(v.getId() == findViewById(R.id.txvRegistrarse).getId()){
+
+            Intent registrar = new Intent(this, register.class);
+            startActivity(registrar);
         }
 
     }
@@ -61,6 +68,8 @@ public class login extends AppCompatActivity implements View.OnClickListener{
         edtContrasena = (EditText)findViewById(R.id.edtContraseña);
         btnIniciar = (Button)findViewById(R.id.btnInicioSesion);
         btnIniciar.setOnClickListener(this);
+        registrarse = (TextView)findViewById(R.id.txvRegistrarse);
+        registrarse.setOnClickListener(this);
     }
 
     //comprueba si el editText esta vacio

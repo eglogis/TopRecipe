@@ -44,7 +44,6 @@ public class register extends AppCompatActivity implements View.OnClickListener{
     private ImageView imagenUsusario;
     private final int COD_CAMARA=10;
     private Bitmap bitmap;
-    Boolean permisos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,9 +93,9 @@ public class register extends AppCompatActivity implements View.OnClickListener{
                 Snackbar.make(view, "Se abrira la camara", Snackbar.LENGTH_LONG)
                         .setAction("Aceptar", null).show();
 
-                //tomarfoto();
+                tomarfoto();
 
-                permisos = checkPermission();
+
             }
         });
 
@@ -108,7 +107,6 @@ public class register extends AppCompatActivity implements View.OnClickListener{
 
             Intent intentCamara=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(intentCamara, COD_CAMARA);
-
         }
 
 
@@ -149,11 +147,11 @@ public class register extends AppCompatActivity implements View.OnClickListener{
             ToastError("Son obligatorios los dos campos");
         }else{
 
-            if((edtDia.getText().toString().length() != 2) || (edtMes.getText().toString().length() != 2) || (edtAno.getText().toString().length() != 4)){
+            /*if((edtDia.getText().toString().length() != 2) || (edtMes.getText().toString().length() != 2) || (edtAno.getText().toString().length() != 4)){
 
                 ToastError("Los campos de la fecha tienen que ser DD MM AAAA");
-            }
-            else{
+            }*/
+            /*else{*/
 
                 if((Integer.parseInt(edtMes.getText().toString())) > 12 || (Integer.parseInt(edtMes.getText().toString()) <= 0) || (Integer.parseInt(edtAno.getText().toString()) < 1000) || (Integer.parseInt(edtAno.getText().toString()) > 2019)){
 
@@ -165,12 +163,12 @@ public class register extends AppCompatActivity implements View.OnClickListener{
                         ToastError("No has puesto bien la fecha, Febrero tiene 28 dias");
                     } else {
 
-                        if ((Integer.parseInt(edtMes.getText().toString()) == 4) || (Integer.parseInt(edtMes.getText().toString()) == 6) || (Integer.parseInt(edtMes.getText().toString()) == 9) || (Integer.parseInt(edtMes.getText().toString()) == 11) && (Integer.parseInt(edtDia.getText().toString()) > 30) || (Integer.parseInt(edtDia.getText().toString()) <= 0)) {
+                        if (((Integer.parseInt(edtMes.getText().toString()) == 4) || (Integer.parseInt(edtMes.getText().toString()) == 6) || (Integer.parseInt(edtMes.getText().toString()) == 9) || (Integer.parseInt(edtMes.getText().toString()) == 11)) && (Integer.parseInt(edtDia.getText().toString()) > 30) || (Integer.parseInt(edtDia.getText().toString()) <= 0)) {
 
                             ToastError("No has puesto bien la fecha, ese mes no tiene mas de 30 dias ni menos de 1");
                         } else {
 
-                            if ((Integer.parseInt(edtMes.getText().toString()) == 1) || (Integer.parseInt(edtMes.getText().toString()) == 3) || (Integer.parseInt(edtMes.getText().toString()) == 5) || (Integer.parseInt(edtMes.getText().toString()) == 7) || (Integer.parseInt(edtMes.getText().toString()) == 8) || (Integer.parseInt(edtMes.getText().toString()) == 10) || (Integer.parseInt(edtMes.getText().toString()) == 12) && (Integer.parseInt(edtDia.getText().toString()) > 31) || (Integer.parseInt(edtDia.getText().toString()) <= 0)) {
+                            if (((Integer.parseInt(edtMes.getText().toString()) == 1) || (Integer.parseInt(edtMes.getText().toString()) == 3) || (Integer.parseInt(edtMes.getText().toString()) == 5) || (Integer.parseInt(edtMes.getText().toString()) == 7) || (Integer.parseInt(edtMes.getText().toString()) == 8) || (Integer.parseInt(edtMes.getText().toString()) == 10) || (Integer.parseInt(edtMes.getText().toString()) == 12)) && (Integer.parseInt(edtDia.getText().toString()) > 31) || (Integer.parseInt(edtDia.getText().toString()) <= 0)) {
 
                                 ToastError("No has puesto bien la fecha, ese mes no tiene mas de 31 dias ni menos de 1");
 
@@ -196,7 +194,7 @@ public class register extends AppCompatActivity implements View.OnClickListener{
                                                 final String fecha = edtAno.getText().toString() + "-" + edtMes.getText().toString() + "-" + edtDia.getText().toString();
 
                                                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                                                StringRequest sr = new StringRequest(Request.Method.POST, "http://192.168.1.32/topRecipes/anadir.php", new Response.Listener<String>() {
+                                                StringRequest sr = new StringRequest(Request.Method.POST, "http://192.168.1.140/topRecipes/anadir.php", new Response.Listener<String>() {
                                                     @Override
                                                     public void onResponse(String response) {
                                                         //Log.d("Respuesta:", response);
@@ -263,7 +261,7 @@ public class register extends AppCompatActivity implements View.OnClickListener{
                 }
             }
         }
-    }
+    //}
 
     //muestra toast cuando hay un error
     private void ToastError(String texto){
@@ -327,9 +325,6 @@ public class register extends AppCompatActivity implements View.OnClickListener{
             } else {
                 /* En caso de todos los permisos correctos se notifica en el log */
                 Log.i("Mensaje", "Todos los permisos se han cargado correctamente.");
-
-                Intent intentCamara=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intentCamara, COD_CAMARA);
                 return true;
             }
         }

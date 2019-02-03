@@ -13,4 +13,5 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="mi_mensaje"><u>¿No estas registrado? Registrate aqui</u></string>
 </resources>
