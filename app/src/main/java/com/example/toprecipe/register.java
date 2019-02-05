@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,10 +42,12 @@ public class register extends AppCompatActivity implements View.OnClickListener{
 
     private EditText edtNombre, edtApellido, edtDia, edtMes, edtAno, edtNumeroTelefono, edtObservaciones, edtNombreUsuario, edtCorreoElectronico, edtContrasena, edtContrasenados;
     private Button btnRegistrar;
+    private ImageButton foto, galeria;
     public static usuario UsuarioBuscado;
     private double latitud, altitud;
     private ImageView imagenUsusario;
     private final int COD_CAMARA=10;
+    private final int COD_GALERIA=20;
     private Bitmap bitmap;
 
     @Override
@@ -79,28 +84,62 @@ public class register extends AppCompatActivity implements View.OnClickListener{
         edtCorreoElectronico = (EditText) findViewById(R.id.edtCorreoElectronico);
         edtContrasena = (EditText) findViewById(R.id.edtContrasena);
         edtContrasenados = (EditText) findViewById(R.id.edtContrasenados);
+        galeria = (ImageButton)findViewById(R.id.btnGaleria);
+        foto = (ImageButton)findViewById(R.id.btnCamara);
 
         //button
         btnRegistrar = (Button) findViewById(R.id.btnRegistrar);
         btnRegistrar.setOnClickListener(this);
 
         imagenUsusario = (ImageView) findViewById(R.id.imgUsuario);
-        imagenUsusario.setOnClickListener(new View.OnClickListener() {
+
+        //evento para imagenButton
+        foto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-
-                Snackbar.make(view, "Se abrira la camara", Snackbar.LENGTH_LONG)
-                        .setAction("Aceptar", null).show();
-
                 tomarfoto();
+                ToastExito("Se habrira la camara");
+            }
+        });
 
+        //evento para ImgenButon
+        galeria.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(checkPermission()) {
+
+                    tomarFotoGalreia();
+                    ToastExito("Se habrira la galeria");
+                }
 
             }
         });
 
     }
 
+
+    //METODOS PARA CONTROLAR LA CAMARA Y LA GALERIA
+
+    //metodo para tomar una foto de la galeria
+    private void tomarFotoGalreia(){
+
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        startActivityForResult(intent, COD_GALERIA);
+    }
+
+    //metodo que no utilizo para redimensionar una imagen
+    private Bitmap redimensionar(Bitmap source) {
+        int sizeWidth = source.getWidth();
+        int sizeHeight = sizeWidth / 2 + 20;
+        int x = 0;
+        int y = 0;
+        return Bitmap.createBitmap(source, x, y, sizeWidth, sizeHeight);
+    }
+
+    //metodo para tomar una foto de la camara
     private void tomarfoto() {
 
         if (checkPermission()) {
@@ -112,19 +151,58 @@ public class register extends AppCompatActivity implements View.OnClickListener{
 
     }
 
+    //para saber que hacer si coger la imagen de la galeria o hacer mediante la camara segun el COD
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if ((resultCode == RESULT_OK)){
-
-            if(COD_CAMARA == 10){
+        if ((requestCode == COD_CAMARA) && (resultCode == RESULT_OK)){
 
                 bitmap = (Bitmap) data.getExtras().get("data");
                 imagenUsusario.setImageBitmap(bitmap);
+
+        }
+
+        if ((requestCode == COD_GALERIA) && (resultCode == RESULT_OK)){
+            /* Recoge la direccion donde se encuentra la imagen */
+            Uri uri = data.getData();
+            try {
+                /* Recoge del enlace un bitmap y lo redimensiona antes de cargarlo
+                 * en el imageView */
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+                //bitmap = redimensionar(bitmap);
+
+                this.imagenUsusario.setImageBitmap(bitmap);
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
+
+    private boolean checkPermission() {
+        /* Se compureba de que la SDK es superior a marshmallow, pues si es inferior no es necesario
+         * pedir permisos */
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if ((checkSelfPermission(CAMERA) != PackageManager.PERMISSION_GRANTED) &&
+                    (checkSelfPermission(WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) &&
+                    (checkSelfPermission(READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
+                /* En caso de no haber cargado correctamente los permisos se avisa con
+                 * un Toast y se piden */
+                Toast.makeText(getApplicationContext(), "Error al cargar permisos",
+                        Toast.LENGTH_LONG).show();
+                requestPermissions(new String[]{CAMERA, WRITE_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE}, 100);
+                return false;
+            } else {
+                /* En caso de todos los permisos correctos se notifica en el log */
+                Log.i("Mensaje", "Todos los permisos se han cargado correctamente.");
+                return true;
+            }
+        }
+        return true;
+    }
+
+    //METODOS PARA EL CONTROL DE LOS DATOS QUE VIENEN DE LA API Y EL CONTROL DE ERRORES DE LA FECHA...
 
     //metodo para ver si est vacio o no un editText
     private boolean estaVacioEditText(){
@@ -197,9 +275,6 @@ public class register extends AppCompatActivity implements View.OnClickListener{
                                                 StringRequest sr = new StringRequest(Request.Method.POST, "http://192.168.1.140/topRecipes/anadir.php", new Response.Listener<String>() {
                                                     @Override
                                                     public void onResponse(String response) {
-                                                        //Log.d("Respuesta:", response);
-                                                        //Gson g = new Gson();
-                                                        //UserToken p = g.fromJson(response, UserToken.class);
 
                                                     }
                                                 }, new Response.ErrorListener() {
@@ -263,18 +338,6 @@ public class register extends AppCompatActivity implements View.OnClickListener{
         }
     //}
 
-    //muestra toast cuando hay un error
-    private void ToastError(String texto){
-
-        Toast.makeText(this, texto, Toast.LENGTH_SHORT).show();
-    }
-
-    //muestra un toast cuando algo sale bien
-    private void ToastExito(String texto){
-
-        Toast.makeText(this, texto, Toast.LENGTH_SHORT).show();
-    }
-
 
     //metodo para ver si se esta repitiendo o un el nombre de usuario en el registro
     private usuario generateDataList(List<usuario> photoList) {
@@ -301,6 +364,9 @@ public class register extends AppCompatActivity implements View.OnClickListener{
         return usuarioEncontrado;
     }
 
+    //METODOS PARA HACER EL FEEDBACK DEL USUARIO: MENSAJES DE ERROR QUE LE SALEN ECT...
+
+    //metodo para hacer invisible statusbar
     private void hacerInvisibleStatusBar(){
 
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
@@ -309,25 +375,16 @@ public class register extends AppCompatActivity implements View.OnClickListener{
         }
     }
 
-    private boolean checkPermission() {
-        /* Se compureba de que la SDK es superior a marshmallow, pues si es inferior no es necesario
-         * pedir permisos */
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if ((checkSelfPermission(CAMERA) != PackageManager.PERMISSION_GRANTED) &&
-                    (checkSelfPermission(WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) &&
-                    (checkSelfPermission(READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
-                /* En caso de no haber cargado correctamente los permisos se avisa con
-                 * un Toast y se piden */
-                Toast.makeText(getApplicationContext(), "Error al cargar permisos",
-                        Toast.LENGTH_LONG).show();
-                requestPermissions(new String[]{CAMERA, WRITE_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE}, 100);
-                return false;
-            } else {
-                /* En caso de todos los permisos correctos se notifica en el log */
-                Log.i("Mensaje", "Todos los permisos se han cargado correctamente.");
-                return true;
-            }
-        }
-        return true;
+
+    //muestra toast cuando hay un error
+    private void ToastError(String texto){
+
+        Toast.makeText(this, texto, Toast.LENGTH_SHORT).show();
+    }
+
+    //muestra un toast cuando algo sale bien
+    private void ToastExito(String texto){
+
+        Toast.makeText(this, texto, Toast.LENGTH_SHORT).show();
     }
 }
