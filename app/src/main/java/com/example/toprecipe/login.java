@@ -23,7 +23,7 @@ public class login extends AppCompatActivity implements View.OnClickListener{
     private EditText edtNombre;
     private EditText edtContrasena;
     private Button btnIniciar;
-    public static usuario UsuarioBuscado;
+    public static usuario UsuarioBuscado  = new usuario(0, "null", "null", "null", "null", "null", "null", 0.00, 0.00, "null", "null", "null");
     private TextView registrarse;
 
     @Override

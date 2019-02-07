@@ -123,7 +123,14 @@ public class recetas_ubicacion extends AppCompatActivity {
 
                 rootView = inflater.inflate(R.layout.fragment_perfil, container, false);
                 ImageView imagenFoto = (ImageView)rootView.findViewById(R.id.imgFoto);
-                Picasso.with(getContext()).load("http://192.168.1.140/topRecipes/imagenes/" + login.UsuarioBuscado.getFoto()).error(R.drawable.ic_account_circle_black_24dp).into(imagenFoto);
+                if(login.UsuarioBuscado.getId() == 0){
+
+                    imagenFoto.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                }
+                else{
+                    Picasso.with(getContext()).load("http://192.168.1.140/topRecipes/imagenes/" + login.UsuarioBuscado.getFoto()).error(R.drawable.ic_account_circle_black_24dp).into(imagenFoto);
+                }
+
             }
             return rootView;
         }
