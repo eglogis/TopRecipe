@@ -99,7 +99,7 @@ public class register extends AppCompatActivity implements View.OnClickListener{
             public void onClick(View view) {
 
                 tomarfoto();
-                ToastExito("Se habrira la camara");
+                ToastExito("Se abrira la camara");
             }
         });
 
@@ -111,7 +111,7 @@ public class register extends AppCompatActivity implements View.OnClickListener{
                 if(checkPermission()) {
 
                     tomarFotoGalreia();
-                    ToastExito("Se habrira la galeria");
+                    ToastExito("Se abrira la galeria");
                 }
 
             }

@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //click en Invitado
     private void clickInvitado(){
 
-        Intent intent = new Intent(this, recipes.class);
+        Intent intent = new Intent(this, recetas_ubicacion.class);
         startActivity(intent);
 
 

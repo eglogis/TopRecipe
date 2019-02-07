@@ -9,13 +9,10 @@
         android:name="android.hardware.camera2"
         android:required="true" />
 
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -27,7 +24,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".recipes"></activity>
+        <activity
+            android:name=".recetas_ubicacion"
+            android:label="@string/title_activity_recetas_ubicacion"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".recipes" />
         <activity android:name=".register" />
         <activity android:name=".login" />
         <activity android:name=".MainActivity">

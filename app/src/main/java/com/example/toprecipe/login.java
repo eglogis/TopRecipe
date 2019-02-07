@@ -118,7 +118,7 @@ public class login extends AppCompatActivity implements View.OnClickListener{
                 }
                 else {
 
-                    Intent intent = new Intent(getApplicationContext(), recipes.class);
+                    Intent intent = new Intent(getApplicationContext(), recetas_ubicacion.class);
                     startActivity(intent);
                 }
             }
