@@ -1,5 +1,7 @@
 package com.example.toprecipe;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -16,12 +18,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class recetas_ubicacion extends AppCompatActivity {
+
+    public static Activity activity = null;
+
+
 
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -40,6 +50,10 @@ public class recetas_ubicacion extends AppCompatActivity {
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
+        activity = this;
+
+
+
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -53,14 +67,14 @@ public class recetas_ubicacion extends AppCompatActivity {
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
     }
 
@@ -104,6 +118,7 @@ public class recetas_ubicacion extends AppCompatActivity {
             return fragment;
         }
 
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -122,21 +137,42 @@ public class recetas_ubicacion extends AppCompatActivity {
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 3){
 
                 rootView = inflater.inflate(R.layout.fragment_perfil, container, false);
-                ImageView imagenFoto = (ImageView)rootView.findViewById(R.id.imgFoto);
+                CircleImageView fotoredonda = (CircleImageView)rootView.findViewById(R.id.fotoCirculo);
+                TextView txvNombre = (TextView)rootView.findViewById(R.id.txvNombrePerfil);
+                TextView txvNombreCompleto = (TextView)rootView.findViewById(R.id.txvNombreCompleto);
+                TextView txvFecha = (TextView)rootView.findViewById(R.id.txvFechaNac);
+                TextView txvTelefono = (TextView)rootView.findViewById(R.id.txvNumeroTel);
+                TextView txvCorreo = (TextView)rootView.findViewById(R.id.txvCorreoEl);
+                TextView txvComentarios = (TextView)rootView.findViewById(R.id.txvComentarios);
+                Button btnCerrarSesion = (Button)rootView.findViewById(R.id.btnCerrarSesion);
+                btnCerrarSesion.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        Intent intent = new Intent(getContext(), login.class);
+                        startActivity(intent);
+                        recetas_ubicacion.activity.finish();
+                    }
+                });
+
                 if(login.UsuarioBuscado.getId() == 0){
 
-                    imagenFoto.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                    fotoredonda.setImageResource(R.drawable.ic_account_circle_black_24dp);
                 }
                 else{
-                    Picasso.with(getContext()).load("http://192.168.1.140/topRecipes/imagenes/" + login.UsuarioBuscado.getFoto()).error(R.drawable.ic_account_circle_black_24dp).into(imagenFoto);
-                }
 
+                    Picasso.with(getContext()).load("http://192.168.1.140/topRecipes/imagenes/" + login.UsuarioBuscado.getFoto()).error(R.drawable.ic_account_circle_black_24dp).into(fotoredonda);
+                    txvNombre.setText(login.UsuarioBuscado.getLogin());
+                    txvNombreCompleto.setText(login.UsuarioBuscado.getNombre() + " " + login.UsuarioBuscado.getApellido());
+                    txvFecha.setText(login.UsuarioBuscado.getNacimiento());
+                    txvTelefono.setText(login.UsuarioBuscado.getTelefono());
+                    txvCorreo.setText(login.UsuarioBuscado.getCorreo());
+                    txvComentarios.setText(login.UsuarioBuscado.getComentarios());
+                }
             }
             return rootView;
         }
     }
-
-
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {

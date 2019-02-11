@@ -1,5 +1,6 @@
 package com.example.toprecipe;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -20,6 +21,8 @@ import retrofit2.Response;
 
 public class login extends AppCompatActivity implements View.OnClickListener{
 
+    public static Activity activity = null;
+
     private EditText edtNombre;
     private EditText edtContrasena;
     private Button btnIniciar;
@@ -34,6 +37,8 @@ public class login extends AppCompatActivity implements View.OnClickListener{
         hacerInvisibleStatusBar();
         inicializarComponentes();
         ToastInfo("Inicia sesión con nombre de usuario y contraseña");
+
+        activity = this;
         
     }
 
@@ -120,6 +125,7 @@ public class login extends AppCompatActivity implements View.OnClickListener{
 
                     Intent intent = new Intent(getApplicationContext(), recetas_ubicacion.class);
                     startActivity(intent);
+                    login.activity.finish();
                 }
             }
 
@@ -166,5 +172,19 @@ public class login extends AppCompatActivity implements View.OnClickListener{
     private void ToastError(String texto){
 
         Toast.makeText(this, texto, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        UsuarioBuscado  = new usuario(0, "null", "null", "null", "null", "null", "null", 0.00, 0.00, "null", "null", "null");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        UsuarioBuscado  = new usuario(0, "null", "null", "null", "null", "null", "null", 0.00, 0.00, "null", "null", "null");
     }
 }

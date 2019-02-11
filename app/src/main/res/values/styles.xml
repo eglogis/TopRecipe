@@ -14,9 +14,9 @@
     </style>
 
     <style name="colores">
-        <item name="colorPrimary">#9b0493</item>
+        <item name="colorPrimary">#AC58FA</item>
         <item name="colorPrimaryDark">#38068f</item>
-        <item name="colorAccent">#9b0493</item>
+        <item name="colorAccent">#AC58FA</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
