@@ -6,9 +6,8 @@
     tools:context=".ubicacionFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Aqui se abrira un mapa con la ubicacion de los cocineros" />
+        android:layout_height="match_parent"/>
 
 </FrameLayout>
