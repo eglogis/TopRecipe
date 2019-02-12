@@ -6,6 +6,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
@@ -18,22 +20,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.SupportMapFragment;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class recetas_ubicacion extends AppCompatActivity {
 
     public static Activity activity = null;
-
-
-
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -129,6 +132,31 @@ public class recetas_ubicacion extends AppCompatActivity {
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 1){
 
                 rootView = inflater.inflate(R.layout.fragment_recetas, container, false);
+
+                Spinner spin = (Spinner)rootView.findViewById(R.id.spinnerCategoria);
+
+                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                        R.array.planets_array, android.R.layout.simple_spinner_item);
+
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spin.setAdapter(adapter);
+
+               //spin.setOnItemSelectedListener(this);
+
+                ArrayList<receta> arrayRecetas = new ArrayList();
+                ConectorBaseDeDatos databaseAccess;
+                databaseAccess = ConectorBaseDeDatos.getInstance(getActivity());
+                databaseAccess.AbrirConexion();
+                arrayRecetas = databaseAccess.todas_las_recetas();
+                databaseAccess.CerrarConexcion();
+
+                RecyclerView recicleRecetas = (RecyclerView)rootView.findViewById(R.id.rclRecetas);
+                adapterRecicler miAdaptador;
+
+                recicleRecetas.setLayoutManager(new GridLayoutManager(getContext(), 1));
+                miAdaptador = new adapterRecicler(getContext(), arrayRecetas);
+                recicleRecetas.setAdapter(miAdaptador);
+
             }
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 2){
 
@@ -138,6 +166,7 @@ public class recetas_ubicacion extends AppCompatActivity {
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 3){
 
                 rootView = inflater.inflate(R.layout.fragment_perfil, container, false);
+
                 CircleImageView fotoredonda = (CircleImageView)rootView.findViewById(R.id.fotoCirculo);
                 TextView txvNombre = (TextView)rootView.findViewById(R.id.txvNombrePerfil);
                 TextView txvNombreCompleto = (TextView)rootView.findViewById(R.id.txvNombreCompleto);
@@ -146,16 +175,15 @@ public class recetas_ubicacion extends AppCompatActivity {
                 TextView txvCorreo = (TextView)rootView.findViewById(R.id.txvCorreoEl);
                 TextView txvComentarios = (TextView)rootView.findViewById(R.id.txvComentarios);
                 Button btnCerrarSesion = (Button)rootView.findViewById(R.id.btnCerrarSesion);
+
                 btnCerrarSesion.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
                         Intent intent = new Intent(getContext(), login.class);
                         startActivity(intent);
                         recetas_ubicacion.activity.finish();
                     }
                 });
-
                 if(login.UsuarioBuscado.getId() == 0){
 
                     fotoredonda.setImageResource(R.drawable.ic_account_circle_black_24dp);

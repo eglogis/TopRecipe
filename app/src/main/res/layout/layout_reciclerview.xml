@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="25dp"
+    android:layout_marginBottom="20dp"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        app:cardElevation="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txvNombreReceta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="15dp"
+                android:gravity="center"
+                android:text="TextView"
+                android:textColor="#38068f"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:fontFamily="@font/pacifico" />
+
+            <ImageView
+                android:id="@+id/imgReceta"
+                android:layout_width="match_parent"
+                android:layout_height="139dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                app:srcCompat="@drawable/ic_launcher_background" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txvDificultad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="TextView"
+                    android:textColor="#38068f"
+                    android:textSize="16sp"
+                    app:fontFamily="@font/pacifico" />
+
+                <TextView
+                    android:id="@+id/txvTiempo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="TextView"
+                    android:textColor="#38068f"
+                    android:textSize="16sp"
+                    app:fontFamily="@font/pacifico" />
+
+                <TextView
+                    android:id="@+id/txvVermas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/verMas"
+                    android:textColor="#38068f"
+                    android:textSize="16sp"
+                    app:fontFamily="@font/pacifico" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

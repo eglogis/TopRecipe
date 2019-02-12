@@ -14,6 +14,7 @@
         completions."
     </string>
     <string name="mi_mensaje"><u>¿No estas registrado? Registrate aqui</u></string>
+    <string name="verMas"><u>Ver mas</u></string>
     <string name="title_activity_recetas_ubicacion">recetas_ubicacion</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>

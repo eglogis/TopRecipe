@@ -57,11 +57,9 @@ public class recetasFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_recetas, container, false);
 
-        this.mRecyclerView = (RecyclerView)view.findViewById(R.id.recicler_view);
+        /*this.mRecyclerView = (RecyclerView)view.findViewById(R.id.recicler_view);
         gridLayoutManager = new GridLayoutManager(getContext(), 2);
-        mRecyclerView.setLayoutManager(gridLayoutManager);
-
-
+        mRecyclerView.setLayoutManager(gridLayoutManager);*/
 
         // Inflate the layout for this fragment
         return view;

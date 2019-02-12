@@ -10,6 +10,7 @@ import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +27,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +51,7 @@ public class register extends AppCompatActivity implements View.OnClickListener{
     private final int COD_CAMARA=10;
     private final int COD_GALERIA=20;
     private Bitmap bitmap;
+    private String imagenFoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +122,6 @@ public class register extends AppCompatActivity implements View.OnClickListener{
 
     }
 
-
     //METODOS PARA CONTROLAR LA CAMARA Y LA GALERIA
 
     //metodo para tomar una foto de la galeria
@@ -161,6 +163,11 @@ public class register extends AppCompatActivity implements View.OnClickListener{
                 bitmap = (Bitmap) data.getExtras().get("data");
                 imagenUsusario.setImageBitmap(bitmap);
 
+            ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+            byte[] b = baos.toByteArray();
+            imagenFoto = Base64.encodeToString(b, Base64.DEFAULT);
+
         }
 
         if ((requestCode == COD_GALERIA) && (resultCode == RESULT_OK)){
@@ -171,6 +178,11 @@ public class register extends AppCompatActivity implements View.OnClickListener{
                  * en el imageView */
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
                 //bitmap = redimensionar(bitmap);
+
+                ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+                byte[] b = baos.toByteArray();
+                imagenFoto = Base64.encodeToString(b, Base64.DEFAULT);
 
                 this.imagenUsusario.setImageBitmap(bitmap);
 
@@ -297,7 +309,7 @@ public class register extends AppCompatActivity implements View.OnClickListener{
                                                         params.put("latitud", "40.7127837");
                                                         params.put("altitud", "40.7127837");
                                                         params.put("telefono", edtNumeroTelefono.getText().toString());
-                                                        params.put("foto", "fotaso");
+                                                        params.put("foto", "imagenFoto");
                                                         params.put("comentarios", edtObservaciones.getText().toString());
 
                                                         return params;

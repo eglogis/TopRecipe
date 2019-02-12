@@ -54,8 +54,7 @@ public class perfilFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_perfil, container, false);
-        //foto = (ImageView)view.findViewById(R.id.imgFoto);
-        //Picasso.with(getContext()).load("http://192.168.1.140/topRecipes/imagenes/" + login.UsuarioBuscado.getFoto()).into(foto);
+
 
         return view;
     }
@@ -70,6 +69,13 @@ public class perfilFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
+        if (context instanceof recetasFragment.OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
 
 
     }
