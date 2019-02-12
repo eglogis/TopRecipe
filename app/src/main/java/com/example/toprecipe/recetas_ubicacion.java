@@ -34,9 +34,10 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class recetas_ubicacion extends AppCompatActivity {
+public class recetas_ubicacion extends AppCompatActivity implements adapterRecicler.respuestaAlClick{
 
     public static Activity activity = null;
+
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -103,6 +104,13 @@ public class recetas_ubicacion extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onrespuesAlClick(receta receta) {
+
+        Intent intent = new Intent(getApplicationContext(), VisorPdf.class);
+        startActivity(intent);
     }
 
 

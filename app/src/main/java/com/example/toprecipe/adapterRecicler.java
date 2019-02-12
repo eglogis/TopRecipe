@@ -1,6 +1,7 @@
 package com.example.toprecipe;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,12 +17,16 @@ import java.util.ArrayList;
 
 public class adapterRecicler extends RecyclerView.Adapter<adapterRecicler.ViewHolder>{
 
+    respuestaAlClick respuesta;
+
     private ArrayList<receta> recetas = new ArrayList();
     private LayoutInflater mInflater;
     private AdapterView.OnItemClickListener mclicklistener;
+    static receta receta;
 
     // data is passed into the constructor
     adapterRecicler(Context context, ArrayList<receta> recetas) {
+        respuesta = (respuestaAlClick)context;
         this.mInflater = LayoutInflater.from(context);
         this.recetas = recetas;
     }
@@ -36,7 +41,7 @@ public class adapterRecicler extends RecyclerView.Adapter<adapterRecicler.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        final receta receta = recetas.get(position);
+        receta = recetas.get(position);
         holder.txvNombre.setText(recetas.get(position).getNombre());
         holder.txvDificultad.setText(recetas.get(position).getDificultad());
         holder.txvTiempo.setText(recetas.get(position).getTiempo());
@@ -48,6 +53,7 @@ public class adapterRecicler extends RecyclerView.Adapter<adapterRecicler.ViewHo
             public void onClick(View view) {
 
                 Toast.makeText(view.getContext(), receta.getNombre(), Toast.LENGTH_SHORT).show();
+                respuesta.onrespuesAlClick(receta);
 
             }
         });
@@ -76,5 +82,9 @@ public class adapterRecicler extends RecyclerView.Adapter<adapterRecicler.ViewHo
 
     receta getItem(int id) {
         return recetas.get(id);
+    }
+
+    public interface respuestaAlClick{
+        public void onrespuesAlClick(receta receta);
     }
 }
