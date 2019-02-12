@@ -110,6 +110,7 @@ public class recetas_ubicacion extends AppCompatActivity implements adapterRecic
     public void onrespuesAlClick(receta receta) {
 
         Intent intent = new Intent(getApplicationContext(), VisorPdf.class);
+        intent.putExtra("pdf", receta.getPdf());
         startActivity(intent);
     }
 

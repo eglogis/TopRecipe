@@ -7,6 +7,7 @@ import com.github.barteksc.pdfviewer.PDFView;
 
 public class VisorPdf extends AppCompatActivity {
 
+    String nombrePdf;
     PDFView pdfView;
 
     @Override
@@ -14,9 +15,11 @@ public class VisorPdf extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visor_pdf);
 
+        nombrePdf = getIntent().getStringExtra("pdf");
+
         pdfView = (PDFView)findViewById(R.id.pdfView);
 
-        pdfView.fromAsset(adapterRecicler.receta.getPdf())
+        pdfView.fromAsset(nombrePdf)
                 .enableSwipe(true)
                 .enableDoubletap(true)
                 .enableAntialiasing(true)

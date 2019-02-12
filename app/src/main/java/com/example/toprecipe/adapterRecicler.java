@@ -22,7 +22,6 @@ public class adapterRecicler extends RecyclerView.Adapter<adapterRecicler.ViewHo
     private ArrayList<receta> recetas = new ArrayList();
     private LayoutInflater mInflater;
     private AdapterView.OnItemClickListener mclicklistener;
-    static receta receta;
 
     // data is passed into the constructor
     adapterRecicler(Context context, ArrayList<receta> recetas) {
@@ -41,7 +40,7 @@ public class adapterRecicler extends RecyclerView.Adapter<adapterRecicler.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        receta = recetas.get(position);
+        final receta receta = recetas.get(position);
         holder.txvNombre.setText(recetas.get(position).getNombre());
         holder.txvDificultad.setText(recetas.get(position).getDificultad());
         holder.txvTiempo.setText(recetas.get(position).getTiempo());
