@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -34,9 +35,11 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class recetas_ubicacion extends AppCompatActivity implements adapterRecicler.respuestaAlClick{
+public class recetas_ubicacion extends AppCompatActivity implements adapterRecicler.respuestaAlClick {
 
     public static Activity activity = null;
+    static RecyclerView recicleRecetas;
+    static adapterRecicler miAdaptador;
 
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -71,16 +74,6 @@ public class recetas_ubicacion extends AppCompatActivity implements adapterRecic
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
-
-        //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        /*fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
-
     }
 
 
@@ -114,15 +107,12 @@ public class recetas_ubicacion extends AppCompatActivity implements adapterRecic
         startActivity(intent);
     }
 
-
     public static class PlaceholderFragment extends Fragment {
 
         private static final String ARG_SECTION_NUMBER = "section_number";
 
         public PlaceholderFragment() {
         }
-
-
         public static PlaceholderFragment newInstance(int sectionNumber) {
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
@@ -142,6 +132,9 @@ public class recetas_ubicacion extends AppCompatActivity implements adapterRecic
 
                 rootView = inflater.inflate(R.layout.fragment_recetas, container, false);
 
+                recicleRecetas = (RecyclerView)rootView.findViewById(R.id.rclRecetas);
+                recicleRecetas.setLayoutManager(new GridLayoutManager(getContext(), 1));
+
                 Spinner spin = (Spinner)rootView.findViewById(R.id.spinnerCategoria);
 
                 ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
@@ -149,27 +142,96 @@ public class recetas_ubicacion extends AppCompatActivity implements adapterRecic
 
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spin.setAdapter(adapter);
+                spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-               //spin.setOnItemSelectedListener(this);
+                        if(position == 0){
 
-                ArrayList<receta> arrayRecetas = new ArrayList();
-                ConectorBaseDeDatos databaseAccess;
-                databaseAccess = ConectorBaseDeDatos.getInstance(getActivity());
-                databaseAccess.AbrirConexion();
-                arrayRecetas = databaseAccess.todas_las_recetas();
-                databaseAccess.CerrarConexcion();
+                            ArrayList<receta> arrayRecetas = new ArrayList();
+                            ConectorBaseDeDatos databaseAccess;
+                            databaseAccess = ConectorBaseDeDatos.getInstance(getActivity());
+                            databaseAccess.AbrirConexion();
+                            arrayRecetas = databaseAccess.todas_las_recetas();
+                            databaseAccess.CerrarConexcion();
+                            miAdaptador = new adapterRecicler(getContext(), arrayRecetas);
+                            recicleRecetas.setAdapter(miAdaptador);
 
-                RecyclerView recicleRecetas = (RecyclerView)rootView.findViewById(R.id.rclRecetas);
-                adapterRecicler miAdaptador;
 
-                recicleRecetas.setLayoutManager(new GridLayoutManager(getContext(), 1));
-                miAdaptador = new adapterRecicler(getContext(), arrayRecetas);
-                recicleRecetas.setAdapter(miAdaptador);
+                        }
 
+                        if(position == 1){
+
+                            ArrayList<receta> arrayRecetasTodas = new ArrayList();
+                            ConectorBaseDeDatos databaseAccess;
+                            databaseAccess = ConectorBaseDeDatos.getInstance(getActivity());
+                            databaseAccess.AbrirConexion();
+                            arrayRecetasTodas = databaseAccess.todas_las_recetas();
+                            databaseAccess.CerrarConexcion();
+                            miAdaptador = new adapterRecicler(getContext(), arrayRecetasTodas);
+                            recicleRecetas.setAdapter(miAdaptador);
+
+
+                        }
+                        if(position == 2){
+
+                            ArrayList<receta> arrayRecetasComida = new ArrayList();
+                            ConectorBaseDeDatos databaseAccess;
+                            databaseAccess = ConectorBaseDeDatos.getInstance(getActivity());
+                            databaseAccess.AbrirConexion();
+                            arrayRecetasComida = databaseAccess.recetasPorCategoria("Comida");
+                            databaseAccess.CerrarConexcion();
+                            miAdaptador = new adapterRecicler(getContext(), arrayRecetasComida);
+                            recicleRecetas.setAdapter(miAdaptador);
+
+                        }
+                        if(position == 3){
+
+                            ArrayList<receta> arrayRecetasPostre = new ArrayList();
+                            ConectorBaseDeDatos databaseAccess;
+                            databaseAccess = ConectorBaseDeDatos.getInstance(getActivity());
+                            databaseAccess.AbrirConexion();
+                            arrayRecetasPostre = databaseAccess.recetasPorCategoria("Postre");
+                            databaseAccess.CerrarConexcion();
+                            miAdaptador = new adapterRecicler(getContext(), arrayRecetasPostre);
+                            recicleRecetas.setAdapter(miAdaptador);
+
+                        }
+                        if(position == 4){
+
+                            ArrayList<receta> arrayRecetasCarne = new ArrayList();
+                            ConectorBaseDeDatos databaseAccess;
+                            databaseAccess = ConectorBaseDeDatos.getInstance(getActivity());
+                            databaseAccess.AbrirConexion();
+                            arrayRecetasCarne = databaseAccess.recetasPorCategoria("Carne");
+                            databaseAccess.CerrarConexcion();
+                            miAdaptador = new adapterRecicler(getContext(), arrayRecetasCarne);
+                            recicleRecetas.setAdapter(miAdaptador);
+                        }
+                        if(position == 5){
+
+                            Toast.makeText(getContext(), "Solo Pescado", Toast.LENGTH_SHORT).show();
+                            ArrayList<receta> arrayRecetasPescado = new ArrayList();
+                            ConectorBaseDeDatos databaseAccess;
+                            databaseAccess = ConectorBaseDeDatos.getInstance(getActivity());
+                            databaseAccess.AbrirConexion();
+                            arrayRecetasPescado = databaseAccess.recetasPorCategoria("Pescado");
+                            databaseAccess.CerrarConexcion();
+                            miAdaptador = new adapterRecicler(getContext(), arrayRecetasPescado);
+                            recicleRecetas.setAdapter(miAdaptador);
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
             }
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 2){
 
                 rootView = inflater.inflate(R.layout.fragment_ubicacion, container, false);
+
 
             }
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 3){

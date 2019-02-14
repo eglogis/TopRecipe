@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="planets_array">
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-        <item>Jupiter</item>
-        <item>Saturn</item>
-        <item>Uranus</item>
-        <item>Neptune</item>
+        <item><u>Seleccion un item para filtrar</u></item>
+        <item>Todas las recetas</item>
+        <item>Comida</item>
+        <item>Postre</item>
+        <item>Carne</item>
+        <item>Pescado</item>
+
     </string-array>
 </resources>

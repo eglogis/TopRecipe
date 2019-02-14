@@ -19,7 +19,7 @@ public class VisorPdf extends AppCompatActivity {
 
         pdfView = (PDFView)findViewById(R.id.pdfView);
 
-        pdfView.fromAsset(nombrePdf)
+        pdfView.fromAsset("pdf/"+nombrePdf)
                 .enableSwipe(true)
                 .enableDoubletap(true)
                 .enableAntialiasing(true)

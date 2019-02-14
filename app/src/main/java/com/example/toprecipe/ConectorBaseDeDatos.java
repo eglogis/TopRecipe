@@ -54,4 +54,29 @@ public class ConectorBaseDeDatos {
 
         return arrayRecetas;
     }
+
+    ArrayList<receta> recetasPorCategoria(String categoria){
+
+        Cursor c;
+
+        ArrayList<receta> arrayListCategoria = new ArrayList<>();
+
+        c = database.rawQuery("Select * from receta where receta.categoria = " + "'" +categoria + "'", null);
+
+        if(c.moveToFirst()){
+
+            do{
+
+                arrayListCategoria.add(new receta(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getBlob(4), c.getInt(5), c.getString(6), c.getString(7)));
+
+
+            }while(c.moveToNext());
+
+
+
+
+        }
+        c.close();
+        return arrayListCategoria;
+    }
 }
