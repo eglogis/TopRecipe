@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -28,6 +29,7 @@ public class login extends AppCompatActivity implements View.OnClickListener{
     private Button btnIniciar;
     public static usuario UsuarioBuscado  = new usuario(0, "null", "null", "null", "null", "null", "null", 0.00, 0.00, "null", "null", "null");
     private TextView registrarse;
+    static List<usuario> TodosUsuarios;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,6 +141,8 @@ public class login extends AppCompatActivity implements View.OnClickListener{
 
     //metodo con el que recorro los usuarios de la base de datos y busco uno en concreto
     private usuario generateDataList(List<usuario> photoList) {
+
+        TodosUsuarios = photoList;
 
         boolean encontrado = false;
         int contador = 0;
