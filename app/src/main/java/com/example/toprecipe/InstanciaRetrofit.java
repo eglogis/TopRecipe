@@ -3,6 +3,7 @@ package com.example.toprecipe;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -34,7 +35,7 @@ public class InstanciaRetrofit {
     public interface GetDataService {
 
         @GET("obtenerUsuarios.php/")
-        Call<List<usuario>> getAllPhotos();
+        Call<ArrayList<usuario>> getAllPhotos();
     }
 
     /*public interface APIService {

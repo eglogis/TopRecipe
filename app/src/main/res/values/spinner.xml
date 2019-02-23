@@ -9,4 +9,27 @@
         <item>Pescado</item>
 
     </string-array>
+
+    <string-array name="acciones">
+        <item>Ver ubicacion</item>
+        <item>Ver su ficha</item>
+        <item>Enviar un sms</item>
+        <item>Enviar un correo electrónico</item>
+        <item>Realizar una llamada</item>
+
+    </string-array>
+
+    <string-array name="correo_sms">
+        <item>Enviar por SMS</item>
+        <item>Enviar por correo</item>
+
+    </string-array>
+
+    <string-array name="categorias">
+        <item><u>Categoria</u></item>
+        <item>Comida</item>
+        <item>Postre</item>
+        <item>Carne</item>
+        <item>Pescado</item>
+    </string-array>
 </resources>

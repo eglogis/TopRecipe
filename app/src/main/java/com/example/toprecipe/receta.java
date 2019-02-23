@@ -16,8 +16,9 @@ public class receta {
     private int id_usuario;
     private String categoria;
     private String pdf;
+    private int defecto;
 
-    public receta(int id, String nombre, String tiempo, String dificultad, byte[] imagen, int id_usuario, String categoria, String pdf) {
+    public receta(int id, String nombre, String tiempo, String dificultad, byte[] imagen, int id_usuario, String categoria, String pdf, int defecto) {
         this.id = id;
         this.nombre = nombre;
         this.tiempo = tiempo;
@@ -30,6 +31,7 @@ public class receta {
         this.id_usuario = id_usuario;
         this.categoria = categoria;
         this.pdf = pdf;
+        this.defecto = defecto;
     }
 
     public receta(String nombre, String tiempo, String dificultad, byte[] imagen, int id_usuario, String categoria, String pdf) {
@@ -112,5 +114,13 @@ public class receta {
 
     public void setPdf(String pdf) {
         this.pdf = pdf;
+    }
+
+    public int getDefecto() {
+        return defecto;
+    }
+
+    public void setDefecto(int defecto) {
+        this.defecto = defecto;
     }
 }

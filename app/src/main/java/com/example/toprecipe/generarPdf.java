@@ -29,10 +29,10 @@ public class generarPdf {
     private Font fSubtitulo = new Font(Font.FontFamily.HELVETICA, 25, Font.BOLD);
     private Font fNormal = new Font(Font.FontFamily.HELVETICA, 20, Font.NORMAL);
 
-
-    private void generarPdf(Context context){
+    public generarPdf(Context context) {
 
         this.context = context;
+
     }
 
     private void createFile(){

@@ -75,6 +75,9 @@ public class usuario {
         this.foto = foto;
         this.comentarios = comentarios;
     }
+    public usuario() {
+
+    }
 
     public int getId() {
         return id;

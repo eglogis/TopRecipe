@@ -1,10 +1,15 @@
 package com.example.toprecipe;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,11 +40,13 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class recetas_ubicacion extends AppCompatActivity implements adapterRecicler.respuestaAlClick {
+public class recetas_ubicacion extends AppCompatActivity implements adapterRecicler.respuestaAlClick{
 
     public static Activity activity = null;
     static RecyclerView recicleRecetas;
+    static RecyclerView recicleusuario;
     static adapterRecicler miAdaptador;
+    static adapterUsuario miAdaptadorUsuario;
 
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -54,13 +61,14 @@ public class recetas_ubicacion extends AppCompatActivity implements adapterRecic
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         activity = this;
 
-
+        hacerInvisibleStatusBar();
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -69,7 +77,7 @@ public class recetas_ubicacion extends AppCompatActivity implements adapterRecic
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
 
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_free_breakfast_black_24dp);
-        tabLayout.getTabAt(1).setIcon(R.drawable.ic_my_location_black_24dp);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_group_black_24dp);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_account_circle_black_24dp);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -92,7 +100,12 @@ public class recetas_ubicacion extends AppCompatActivity implements adapterRecic
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.crearReceta) {
+
+            finish();
+            Intent intent = new Intent(this, AnadirReceta.class);
+            startActivity(intent);
+
             return true;
         }
 
@@ -104,8 +117,47 @@ public class recetas_ubicacion extends AppCompatActivity implements adapterRecic
 
         Intent intent = new Intent(getApplicationContext(), VisorPdf.class);
         intent.putExtra("pdf", receta.getPdf());
+        intent.putExtra("defecto", receta.getDefecto());
         startActivity(intent);
     }
+
+    /*@Override
+    public void onrespuesAlLongClick(final receta receta) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+                builder.setTitle("Confirmar");
+                builder.setMessage("¿Estás seguro que quiere eliminar esta receta?");
+
+                builder.setPositiveButton("SI", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing but close the dialog
+
+                        ConectorBaseDeDatos databaseAccess;
+                        databaseAccess = ConectorBaseDeDatos.getInstance(getApplicationContext());
+                        databaseAccess.AbrirConexion();
+                        databaseAccess.borrarReceta(receta.getId());
+                        databaseAccess.CerrarConexcion();
+                        miAdaptador.notifyDataSetChanged();
+                        recicleRecetas.invalidate();
+                        dialog.dismiss();
+
+                    }
+                });
+
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        // Do nothing
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog alert = builder.create();
+                alert.show();
+    }*/
 
     public static class PlaceholderFragment extends Fragment {
 
@@ -156,8 +208,6 @@ public class recetas_ubicacion extends AppCompatActivity implements adapterRecic
                             databaseAccess.CerrarConexcion();
                             miAdaptador = new adapterRecicler(getContext(), arrayRecetas);
                             recicleRecetas.setAdapter(miAdaptador);
-
-
                         }
 
                         if(position == 1){
@@ -170,8 +220,6 @@ public class recetas_ubicacion extends AppCompatActivity implements adapterRecic
                             databaseAccess.CerrarConexcion();
                             miAdaptador = new adapterRecicler(getContext(), arrayRecetasTodas);
                             recicleRecetas.setAdapter(miAdaptador);
-
-
                         }
                         if(position == 2){
 
@@ -183,7 +231,6 @@ public class recetas_ubicacion extends AppCompatActivity implements adapterRecic
                             databaseAccess.CerrarConexcion();
                             miAdaptador = new adapterRecicler(getContext(), arrayRecetasComida);
                             recicleRecetas.setAdapter(miAdaptador);
-
                         }
                         if(position == 3){
 
@@ -196,6 +243,8 @@ public class recetas_ubicacion extends AppCompatActivity implements adapterRecic
                             miAdaptador = new adapterRecicler(getContext(), arrayRecetasPostre);
                             recicleRecetas.setAdapter(miAdaptador);
 
+
+
                         }
                         if(position == 4){
 
@@ -207,6 +256,8 @@ public class recetas_ubicacion extends AppCompatActivity implements adapterRecic
                             databaseAccess.CerrarConexcion();
                             miAdaptador = new adapterRecicler(getContext(), arrayRecetasCarne);
                             recicleRecetas.setAdapter(miAdaptador);
+
+
                         }
                         if(position == 5){
 
@@ -219,6 +270,8 @@ public class recetas_ubicacion extends AppCompatActivity implements adapterRecic
                             databaseAccess.CerrarConexcion();
                             miAdaptador = new adapterRecicler(getContext(), arrayRecetasPescado);
                             recicleRecetas.setAdapter(miAdaptador);
+
+
                         }
                     }
 
@@ -231,6 +284,10 @@ public class recetas_ubicacion extends AppCompatActivity implements adapterRecic
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 2){
 
                 rootView = inflater.inflate(R.layout.fragment_ubicacion, container, false);
+                recicleusuario = (RecyclerView)rootView.findViewById(R.id.rclUbicaccion);
+                recicleusuario.setLayoutManager(new GridLayoutManager(getContext(), 1));
+                miAdaptadorUsuario = new adapterUsuario(getContext(), login.TodosUsuarios);
+                recicleusuario.setAdapter(miAdaptadorUsuario);
 
 
             }
@@ -250,9 +307,36 @@ public class recetas_ubicacion extends AppCompatActivity implements adapterRecic
                 btnCerrarSesion.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(getContext(), login.class);
-                        startActivity(intent);
-                        recetas_ubicacion.activity.finish();
+
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+                        builder.setTitle("Cerrar sesion");
+                        builder.setMessage("¿Cerrar sesion?");
+
+                        builder.setPositiveButton("SI", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Do nothing but close the dialog
+
+                                Intent intent = new Intent(getContext(), login.class);
+                                startActivity(intent);
+                                recetas_ubicacion.activity.finish();
+
+                                dialog.dismiss();
+                            }
+                        });
+
+                        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Do nothing
+                                dialog.dismiss();
+                            }
+                        });
+                        AlertDialog alert = builder.create();
+                        alert.show();
                     }
                 });
                 if(login.UsuarioBuscado.getId() == 0){
@@ -292,4 +376,19 @@ public class recetas_ubicacion extends AppCompatActivity implements adapterRecic
             return 3;
         }
     }
+
+    @Override protected void onResume() {
+        super.onResume();
+
+    }
+
+    //hace invisile la barra de estado dejando los iconos
+    private void hacerInvisibleStatusBar(){
+
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            getWindow().setStatusBarColor(Color.parseColor("#AC58FA"));
+        }
+    }
+
 }

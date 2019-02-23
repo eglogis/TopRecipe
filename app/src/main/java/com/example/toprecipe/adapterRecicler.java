@@ -1,8 +1,11 @@
 package com.example.toprecipe;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,12 +25,14 @@ public class adapterRecicler extends RecyclerView.Adapter<adapterRecicler.ViewHo
     private ArrayList<receta> recetas = new ArrayList();
     private LayoutInflater mInflater;
     private AdapterView.OnItemClickListener mclicklistener;
+    private Context context;
 
     // data is passed into the constructor
     adapterRecicler(Context context, ArrayList<receta> recetas) {
         respuesta = (respuestaAlClick)context;
         this.mInflater = LayoutInflater.from(context);
         this.recetas = recetas;
+        this.context = context;
     }
 
     @Override
@@ -54,6 +59,17 @@ public class adapterRecicler extends RecyclerView.Adapter<adapterRecicler.ViewHo
                 Toast.makeText(view.getContext(), receta.getNombre(), Toast.LENGTH_SHORT).show();
                 respuesta.onrespuesAlClick(receta);
 
+            }
+        });
+        holder.view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+                Toast.makeText(view.getContext(), "Estoy dejando pulsado sobre" + receta.getNombre(), Toast.LENGTH_SHORT).show();
+
+
+
+                return false;
             }
         });
     }

@@ -29,6 +29,7 @@ import com.android.volley.toolbox.Volley;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -271,11 +272,11 @@ public class register extends AppCompatActivity implements View.OnClickListener{
                                 } else {
 
                                     InstanciaRetrofit.GetDataService service = InstanciaRetrofit.getRetrofitInstance().create(InstanciaRetrofit.GetDataService.class);
-                                    Call<List<usuario>> call = service.getAllPhotos();
+                                    Call<ArrayList<usuario>> call = service.getAllPhotos();
 
-                                    call.enqueue(new Callback<List<usuario>>() {
+                                    call.enqueue(new Callback<ArrayList<usuario>>() {
                                         @Override
-                                        public void onResponse(Call<List<usuario>> call, retrofit2.Response<List<usuario>> response) {
+                                        public void onResponse(Call<ArrayList<usuario>> call, retrofit2.Response<ArrayList<usuario>> response) {
 
                                             UsuarioBuscado = generateDataList(response.body());
 
@@ -335,8 +336,9 @@ public class register extends AppCompatActivity implements View.OnClickListener{
                                             }
                                         }
 
+
                                         @Override
-                                        public void onFailure(Call<List<usuario>> call, Throwable t) {
+                                        public void onFailure(Call<ArrayList<usuario>> call, Throwable t) {
                                             Toast.makeText(getApplicationContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                                             Log.e("error", t.toString());
                                         }
@@ -352,7 +354,7 @@ public class register extends AppCompatActivity implements View.OnClickListener{
 
 
     //metodo para ver si se esta repitiendo o un el nombre de usuario en el registro
-    private usuario generateDataList(List<usuario> photoList) {
+    private usuario generateDataList(ArrayList<usuario> photoList) {
 
         boolean encontrado = false;
         int contador = 0;

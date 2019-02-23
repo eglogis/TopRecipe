@@ -1,5 +1,6 @@
 package com.example.toprecipe;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -46,7 +47,7 @@ public class ConectorBaseDeDatos {
             //Recorremos el cursor hasta que no haya más registros
             do {
 
-                arrayRecetas.add(new receta(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getBlob(4), c.getInt(5), c.getString(6), c.getString(7)));
+                arrayRecetas.add(new receta(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getBlob(4), c.getInt(5), c.getString(6), c.getString(7), c.getInt(8)));
 
             } while(c.moveToNext());
         }
@@ -67,16 +68,39 @@ public class ConectorBaseDeDatos {
 
             do{
 
-                arrayListCategoria.add(new receta(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getBlob(4), c.getInt(5), c.getString(6), c.getString(7)));
+                arrayListCategoria.add(new receta(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getBlob(4), c.getInt(5), c.getString(6), c.getString(7), c.getInt(8)));
 
 
             }while(c.moveToNext());
 
-
-
-
         }
         c.close();
         return arrayListCategoria;
+    }
+
+    public void insertarReceta(String nombre, String tiempo, String dificultad, byte[] fotoReceta, int id_usuario, String categoria, String pdf){
+
+        ContentValues valores = new ContentValues();
+
+        valores.put("nombre", nombre);
+        valores.put("tiempo", tiempo);
+        valores.put("dificultad", dificultad);
+        valores.put("foto", fotoReceta);
+        valores.put("id_usuario", id_usuario);
+        valores.put("categoria", categoria);
+        valores.put("pdf", pdf);
+        valores.put("defecto", 0);
+
+        database.insert("receta", null, valores);
+    }
+
+
+
+    public void borrarReceta(int id){
+
+
+        database.delete("receta", "id=" + id,null);
+
+
     }
 }

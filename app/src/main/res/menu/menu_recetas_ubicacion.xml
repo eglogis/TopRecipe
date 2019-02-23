@@ -4,7 +4,7 @@
     tools:context="com.example.toprecipe.recetas_ubicacion">
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/crearReceta"
         android:orderInCategory="100"
         android:title="Crear nueva receta"
         app:showAsAction="never"/>
