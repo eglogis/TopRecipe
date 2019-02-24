@@ -88,10 +88,20 @@
                 android:hint="Introduce el dificultad"
                 android:inputType="textPersonName" />
 
-            <Spinner
-                android:id="@+id/spinnerCrear"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="35dp" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/gradient_background_register_dos"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/spinnerCrear"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/txvPasos"

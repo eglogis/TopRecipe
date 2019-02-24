@@ -1,3 +1,9 @@
+/*
+ * Realizado por: Samuel Bautista Sanchez
+ * DNI: 20227866X
+ * Asignatura: Desarrollo de Aplicaciones Multiplataforma
+ * */
+
 package com.example.toprecipe;
 
 import android.app.Activity;

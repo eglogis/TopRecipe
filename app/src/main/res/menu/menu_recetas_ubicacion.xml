@@ -8,9 +8,4 @@
         android:orderInCategory="100"
         android:title="Crear nueva receta"
         app:showAsAction="never"/>
-    <item
-        android:id="@+id/info"
-        android:orderInCategory="100"
-        android:title="Informacion"
-        app:showAsAction="never"/>
 </menu>

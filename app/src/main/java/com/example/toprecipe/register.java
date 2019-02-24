@@ -1,3 +1,9 @@
+/*
+ * Realizado por: Samuel Bautista Sanchez
+ * DNI: 20227866X
+ * Asignatura: Desarrollo de Aplicaciones Multiplataforma
+ * */
+
 package com.example.toprecipe;
 
 import android.content.Intent;
@@ -307,8 +313,8 @@ public class register extends AppCompatActivity implements View.OnClickListener{
                                                         params.put("apellido", edtApellido.getText().toString());
                                                         params.put("nacimiento", fecha);
                                                         params.put("correo", edtCorreoElectronico.getText().toString());
-                                                        params.put("latitud", "40.7127837");
-                                                        params.put("altitud", "40.7127837");
+                                                        params.put("latitud", "37.5794764");
+                                                        params.put("altitud", "-4.6379193");
                                                         params.put("telefono", edtNumeroTelefono.getText().toString());
                                                         params.put("foto", "imagenFoto");
                                                         params.put("comentarios", edtObservaciones.getText().toString());

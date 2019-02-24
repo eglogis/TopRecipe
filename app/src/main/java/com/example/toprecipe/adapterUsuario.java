@@ -1,3 +1,9 @@
+/*
+ * Realizado por: Samuel Bautista Sanchez
+ * DNI: 20227866X
+ * Asignatura: Desarrollo de Aplicaciones Multiplataforma
+ * */
+
 package com.example.toprecipe;
 
 import android.content.Context;
@@ -63,6 +69,20 @@ public class adapterUsuario extends RecyclerView.Adapter<adapterUsuario.ViewHold
                                     intent.putExtra("latitud", usuario.getLatitud());
                                     intent.putExtra("longitud", usuario.getAltitud());
                                     intent.putExtra("nombre", usuario.getNombre());
+                                    context.startActivity(intent);
+                                    Toast.makeText(context, usuario.getNombre(), Toast.LENGTH_SHORT).show();
+                                }
+                                if(which == 1){
+
+                                    Intent intent = new Intent(context, Ficha_usuario.class);
+                                    intent.putExtra("login", usuario.getLogin());
+                                    intent.putExtra("nombre", usuario.getNombre());
+                                    intent.putExtra("fechaNac", usuario.getNacimiento());
+                                    intent.putExtra("telefono", usuario.getTelefono());
+                                    intent.putExtra("correo", usuario.getCorreo());
+                                    intent.putExtra("comentarios", usuario.getComentarios());
+                                    intent.putExtra("iamgen", usuario.getFoto());
+                                    intent.putExtra("id", usuario.getId());
                                     context.startActivity(intent);
                                     Toast.makeText(context, usuario.getNombre(), Toast.LENGTH_SHORT).show();
                                 }

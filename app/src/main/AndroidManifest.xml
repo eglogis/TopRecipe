@@ -31,7 +31,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AnadirReceta"></activity>
+        <activity android:name=".Ficha_usuario"></activity>
+        <activity android:name=".AnadirReceta" />
         <activity android:name=".EnviarCorreoSms" />
         <activity android:name=".Main2Activity" />
         <!--

@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background_perfil"
+    tools:context=".Ficha_usuario">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#38068f"
+        android:orientation="vertical"
+        android:elevation="10dp">
+
+        <TextView
+            android:id="@+id/txvNombrePerfil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="TextView"
+            android:textColor="@android:color/background_light"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:fontFamily="@font/allerta" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/fotoCirculo"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:src="@drawable/ic_account_circle_black_24dp"
+            app:civ_border_color="#FFFFFF"
+            app:civ_border_width="2dp" />
+
+    </LinearLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="535dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="196dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="0dp"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txvNombrePerfil2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/gradient_background_register_tres"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Nombre completo"
+                android:textColor="@android:color/black"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:fontFamily="@font/allerta" />
+
+            <TextView
+                android:id="@+id/txvNombreCompleto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="TextView"
+                android:textColor="#38068f"
+                android:textSize="20sp"
+                app:fontFamily="@font/allerta" />
+
+            <TextView
+                android:id="@+id/txvNombrePerfil5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/gradient_background_register_tres"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Fecha de nacimiento"
+                android:textColor="@android:color/black"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:fontFamily="@font/allerta" />
+
+            <TextView
+                android:id="@+id/txvFechaNac"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="TextView"
+                android:textColor="#38068f"
+                android:textSize="20sp"
+                app:fontFamily="@font/allerta" />
+
+            <TextView
+                android:id="@+id/txvNombrePerfil6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/gradient_background_register_tres"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Numero de telefono"
+                android:textColor="@android:color/black"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:fontFamily="@font/allerta" />
+
+            <TextView
+                android:id="@+id/txvNumeroTel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="TextView"
+                android:textColor="#38068f"
+                android:textSize="20sp"
+                app:fontFamily="@font/allerta" />
+
+            <TextView
+                android:id="@+id/txvNombrePerfil7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/gradient_background_register_tres"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Correo electronico"
+                android:textColor="@android:color/black"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:fontFamily="@font/allerta" />
+
+            <TextView
+                android:id="@+id/txvCorreoEl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="TextView"
+                android:textColor="#38068f"
+                android:textSize="20sp"
+                app:fontFamily="@font/allerta" />
+
+            <TextView
+                android:id="@+id/txvComentarios2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/gradient_background_register_tres"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Comentarios"
+                android:textColor="@android:color/black"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:fontFamily="@font/allerta" />
+
+            <TextView
+                android:id="@+id/txvComentarios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:text="TextView"
+                android:textColor="#38068f"
+                android:textSize="20sp"
+                app:fontFamily="@font/allerta" />
+
+            <TextView
+                android:id="@+id/txvComentarios3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/gradient_background_register_tres"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Mis recetas"
+                android:textColor="@android:color/black"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:fontFamily="@font/allerta" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rclrecetasUsuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</RelativeLayout>

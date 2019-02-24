@@ -1,3 +1,9 @@
+/*
+ * Realizado por: Samuel Bautista Sanchez
+ * DNI: 20227866X
+ * Asignatura: Desarrollo de Aplicaciones Multiplataforma
+ * */
+
 package com.example.toprecipe;
 
 import android.app.Activity;
@@ -120,44 +126,6 @@ public class recetas_ubicacion extends AppCompatActivity implements adapterRecic
         intent.putExtra("defecto", receta.getDefecto());
         startActivity(intent);
     }
-
-    /*@Override
-    public void onrespuesAlLongClick(final receta receta) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-                builder.setTitle("Confirmar");
-                builder.setMessage("¿Estás seguro que quiere eliminar esta receta?");
-
-                builder.setPositiveButton("SI", new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Do nothing but close the dialog
-
-                        ConectorBaseDeDatos databaseAccess;
-                        databaseAccess = ConectorBaseDeDatos.getInstance(getApplicationContext());
-                        databaseAccess.AbrirConexion();
-                        databaseAccess.borrarReceta(receta.getId());
-                        databaseAccess.CerrarConexcion();
-                        miAdaptador.notifyDataSetChanged();
-                        recicleRecetas.invalidate();
-                        dialog.dismiss();
-
-                    }
-                });
-
-                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        // Do nothing
-                        dialog.dismiss();
-                    }
-                });
-
-                AlertDialog alert = builder.create();
-                alert.show();
-    }*/
 
     public static class PlaceholderFragment extends Fragment {
 
@@ -303,6 +271,17 @@ public class recetas_ubicacion extends AppCompatActivity implements adapterRecic
                 TextView txvCorreo = (TextView)rootView.findViewById(R.id.txvCorreoEl);
                 TextView txvComentarios = (TextView)rootView.findViewById(R.id.txvComentarios);
                 Button btnCerrarSesion = (Button)rootView.findViewById(R.id.btnCerrarSesion);
+                RecyclerView rclMisRecetas = (RecyclerView)rootView.findViewById(R.id.rclMisRecetas);
+                rclMisRecetas.setLayoutManager(new GridLayoutManager(getContext(), 1));
+
+                ArrayList<receta> arrayRecetas = new ArrayList();
+                ConectorBaseDeDatos databaseAccess;
+                databaseAccess = ConectorBaseDeDatos.getInstance(getContext());
+                databaseAccess.AbrirConexion();
+                arrayRecetas = databaseAccess.recetasPorUsuario(login.UsuarioBuscado.getId());
+                databaseAccess.CerrarConexcion();
+                miAdaptador = new adapterRecicler(getContext(), arrayRecetas);
+                rclMisRecetas.setAdapter(miAdaptador);
 
                 btnCerrarSesion.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -390,5 +369,4 @@ public class recetas_ubicacion extends AppCompatActivity implements adapterRecic
             getWindow().setStatusBarColor(Color.parseColor("#AC58FA"));
         }
     }
-
 }

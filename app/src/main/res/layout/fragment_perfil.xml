@@ -218,6 +218,29 @@
                     android:textSize="20sp"
                     app:fontFamily="@font/allerta" />
 
+                <TextView
+                    android:id="@+id/txvComentarios4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/gradient_background_register_tres"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Mis recetas"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:fontFamily="@font/allerta" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rclMisRecetas"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
     </RelativeLayout>
