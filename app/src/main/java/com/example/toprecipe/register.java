@@ -316,7 +316,7 @@ public class register extends AppCompatActivity implements View.OnClickListener{
                                                         params.put("latitud", "37.5794764");
                                                         params.put("altitud", "-4.6379193");
                                                         params.put("telefono", edtNumeroTelefono.getText().toString());
-                                                        params.put("foto", "imagenFoto");
+                                                        params.put("foto", "cocinero.jpg");
                                                         params.put("comentarios", edtObservaciones.getText().toString());
 
                                                         return params;
