@@ -57,6 +57,7 @@ public class EnviarCorreoSms extends AppCompatActivity {
                                     String text = edtMensaje.getText().toString();
                                     SmsManager sms = SmsManager.getDefault();
                                     sms.sendTextMessage(phone, null, text , null, null);
+                                    Toast.makeText(getApplicationContext(), "Mensaje enviado al usuario", Toast.LENGTH_SHORT).show();
                                     edtMensaje.setText("");
                                 }
 
@@ -79,6 +80,7 @@ public class EnviarCorreoSms extends AppCompatActivity {
                                     emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Mensaje para usuario");
                                     emailIntent.putExtra(Intent.EXTRA_TEXT, edtMensaje.getText().toString());
                                     startActivity(Intent.createChooser(emailIntent, "Mensaje para usuario"));
+                                    Toast.makeText(getApplicationContext(), "Selecciona una aplicacion de correo", Toast.LENGTH_SHORT).show();
                                     edtMensaje.setText("");
                                 }
                             }
