@@ -125,7 +125,9 @@
                 android:id="@+id/btnCrear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
                 android:background="@drawable/gradient_background_register_tres"
                 android:text="Crear"
                 android:textStyle="bold" />

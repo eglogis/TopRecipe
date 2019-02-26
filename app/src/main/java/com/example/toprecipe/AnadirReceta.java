@@ -133,7 +133,7 @@ public class AnadirReceta extends AppCompatActivity {
                 else{
 
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
                     imagenbyte = stream.toByteArray();
 
                     ConectorBaseDeDatos databaseAccess;
@@ -145,8 +145,6 @@ public class AnadirReceta extends AppCompatActivity {
                     Toast.makeText(context, "Receta creada correctamente", Toast.LENGTH_SHORT).show();
 
                     finish();
-
-
                 }
             }
         });
@@ -171,11 +169,6 @@ public class AnadirReceta extends AppCompatActivity {
                  * en el imageView */
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
                 //bitmap = redimensionar(bitmap);
-
-                /*ByteArrayOutputStream baos=new  ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
-                byte[] b = baos.toByteArray();
-                imagenFoto = Base64.encodeToString(b, Base64.DEFAULT);*/
 
                 this.imgReceta.setImageBitmap(bitmap);
 
@@ -206,7 +199,6 @@ public class AnadirReceta extends AppCompatActivity {
         }
         return true;
     }
-
     private String generarPdf(){
         generarPdf pdf = new generarPdf(context);
         pdf.openDocument();
